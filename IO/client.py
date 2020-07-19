@@ -14,12 +14,11 @@ class Clinet(Thread):
         self.client.connect(("127.0.0.1", 8800))
 
     def run(self):
-        while True:
-            if not self.msg:
-                continue
-            self.client.send(self.msg.encode("utf-8"))
-            data = self.client.recv(1024)
-            print data.decode('utf-8')
+        if not self.msg:
+            return
+        self.client.send(self.msg.encode("utf-8"))
+        data = self.client.recv(1024)
+        print data.decode('utf-8')
         self.client.close()
 
 
