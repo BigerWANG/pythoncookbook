@@ -23,7 +23,7 @@ class Clinet(Thread):
 
 
 def main():
-    s = "abc"
+    s = "a"
     for i in s:
         msg = "hahahaha{}".format(i)
         c = Clinet(msg)
