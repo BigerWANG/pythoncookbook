@@ -4,14 +4,12 @@ from threading import Thread
 from socket import socket, AF_INET, SOCK_STREAM
 
 
-
-
 class Clinet(Thread):
     def __init__(self, msg):
         super(Clinet, self).__init__()
         self.msg = msg
         self.client = socket(AF_INET, SOCK_STREAM)
-        self.client.connect(("127.0.0.1", 8800))
+        self.client.connect(("127.0.0.1", 8888))
 
     def run(self):
         if not self.msg:

@@ -23,7 +23,6 @@ def select_server():
     wdata = {}
 
     print "开始socket服务"
-    count = 0
 
     while True:
         rl, wl, xl = select.select(rlist, wlist, [])
