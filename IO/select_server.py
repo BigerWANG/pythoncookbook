@@ -16,14 +16,12 @@ def select_server():
     # server.setblocking(False)  # 设置为非阻塞IO
 
     rlist = [server, ]  # 加入select监听列表
-
     rdata = {}  # 存放客户端返回的数据
 
     wlist = []
     wdata = {}
 
     print "开始socket服务"
-    count = 0
 
     while True:
         rl, wl, xl = select.select(rlist, wlist, [])
