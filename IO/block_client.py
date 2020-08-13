@@ -9,7 +9,6 @@ client = socket(AF_INET, SOCK_STREAM)
 client.connect(("127.0.0.1", 8800))
 
 
-
 while True:
     msg = raw_input(">>>: ", )
     if not msg:
