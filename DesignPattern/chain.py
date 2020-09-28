@@ -14,51 +14,92 @@
 from abc import ABCMeta, abstractmethod
 
 
+
 class Handle(object):
-    """定义一个借口"""
+    """定义一个接口"""
     __metaclass__ = ABCMeta
+
+    def __new__(cls, *args, **kwargs):
+        # 判断实例中是否有instance字段
+        if not hasattr(cls, "_instance"):
+            cls._instance = super(Handle, cls).__new__(cls)
+        return cls._instance
+
     @abstractmethod
-    def request_leave(self, day):
+    def set_next(self, handle):
+        pass
+
+    def handle(self, req):
         pass
 
 
-class DirctLeader(Handle):
-    def __init__(self):
-        self.next_hanle = DeapartmentManager()
+class AbsHandler(Handle):
+    __next_handle: Handle = None
 
-    def request_leave(self, day):
+    def set_next(self, handle):
+        self.__next_handle = handle
+        return handle
+
+    @abstractmethod
+    def handle(self, req):
+        if self.__next_handle:
+            return self.__next_handle.handle(req)
+        return
+
+
+
+class DirctLeader(AbsHandler):
+
+    def handle(self, day):
         if day <= 3:
-            print "this {} request will be OK".format(day)
+            print("this {} request will be OK".format(day))
+            return
         else:
-            self.next_hanle.request_leave(day)
+            print("DirctLeader cant handle")
+            return super().handle(day)
 
 
-class DeapartmentManager(Handle):
-    def __init__(self):
-        self.next_hanle = Boss()
+class DeapartmentManager(AbsHandler):
 
-    def request_leave(self, day):
+    def handle(self, day):
         if day <= 10:
-            print "this {} request will be OK".format(day)
+            print("this {} request will be OK".format(day))
         else:
-            self.next_hanle.request_leave(day)
+            print("DeapartmentManager cant handle")
+            return super().handle(day)
 
 
-class Boss(Handle):
-    def request_leave(self, day):
+class Boss(AbsHandler):
+    def handle(self, day):
         if day <= 10:
-            print "this {} request will be OK".format(day)
+            print("this {} request will be OK".format(day))
+            return
         else:
-            print "you are fired!! "
+            print("fuck off")
+            return super().handle(day)
 
 
-
-
-
-def test():
+def client(handler):
     day = 100
+    handler.handle(day)
 
-    DirctLeader().request_leave(day)
+
 
 if __name__ == '__main__':
-    test()
+    # 把责任链条连起来
+    chain = [DirctLeader(), DeapartmentManager(), Boss()]
+    chain = (i for i in chain)
+    head = next(chain)
+    while 1:
+        try:
+            obj = next(chain)
+            head.set_next(obj)
+            head = obj
+        except StopIteration:
+            break
+    l = DirctLeader()
+    client(l)
+
+
+
+

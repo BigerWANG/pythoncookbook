@@ -34,10 +34,7 @@ def synchronized(func):
 
 class Singleton(object):
     # 重写new方法
-    # @synchronized
-    def __init__(self):
-        time.sleep(1)
-
+    @synchronized
     def __new__(cls, *args, **kwargs):
         # 判断实例中是否有instance字段
         if not hasattr(cls, "_instance"):
@@ -65,7 +62,6 @@ class MyClass(Singleton):
 
 def task(arg):
     obj = MyClass()
-    print obj
 
 
 if __name__ == "__main__":
