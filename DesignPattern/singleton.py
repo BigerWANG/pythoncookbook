@@ -34,7 +34,7 @@ def synchronized(func):
 
 class Singleton(object):
     # 重写new方法
-    # @synchronized
+    @synchronized
     def __init__(self):
         time.sleep(1)
 
@@ -59,13 +59,25 @@ class Singleton1(object):
             return Singleton1._instance
 
 
-class MyClass(Singleton):
+
+# python3 的牛逼写法
+class Singleton2(type):
+    _instances = {}
+
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super(Singleton2, cls).__class__(*args, **kwargs)
+
+        return cls._instances[cls]
+
+
+class MyClass(metaclass=Singleton2):
     pass
 
 
 def task(arg):
     obj = MyClass()
-    print obj
+    print(obj)
 
 
 if __name__ == "__main__":
@@ -81,4 +93,7 @@ if __name__ == "__main__":
     l = [Thread(target=task, args=(i,)) for i in range(10)]
     for i in l:
         i.start()
+
+
+    # for i in l:
 
