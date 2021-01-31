@@ -89,5 +89,3 @@ if __name__ == '__main__':
     notice.notice_info = "hahahah！！"
     notice.deattch(s2)
     notice.notice_info = "明天放假啦"
-    print s1.info
-    print s2.info
