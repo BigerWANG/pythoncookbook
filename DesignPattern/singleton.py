@@ -35,12 +35,9 @@ def synchronized(func):
 class Singleton(object):
     # 重写new方法
     @synchronized
-<<<<<<< HEAD
     def __init__(self):
         time.sleep(1)
 
-=======
->>>>>>> 7e5a0a19de724040788029955933fdae188f9f7c
     def __new__(cls, *args, **kwargs):
         # 判断实例中是否有instance字段
         if not hasattr(cls, "_instance"):
